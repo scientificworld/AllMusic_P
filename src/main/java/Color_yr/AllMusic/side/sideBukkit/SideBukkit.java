@@ -1,20 +1,57 @@
 package Color_yr.AllMusic.side.sideBukkit;
 
-import Color_yr.AllMusic.api.ISide;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.AllMusicBukkit;
+import Color_yr.AllMusic.api.ISide;
 import Color_yr.AllMusic.hudsave.HudSave;
 import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
 import com.google.gson.Gson;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+//import net.minecraft.util.io.netty.buffer.ByteBuf;
+//import net.minecraft.util.io.netty.buffer.Unpooled;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 
 public class SideBukkit implements ISide {
+    private static Class ByteBufC;
+    private static Class UnpooledC;
+    private static Method bufferM;
+    private static Method writeByteM;
+    private static Method writeBytesM;
+    private static Method arrayM;
+    static {
+        try {
+            ByteBufC = Class.forName("net.minecraft.util.io.netty.buffer.ByteBuf");
+            UnpooledC = Class.forName("net.minecraft.util.io.netty.buffer.Unpooled");
+
+            bufferM = UnpooledC.getMethod("buffer", int.class);
+            arrayM = ByteBufC.getMethod("array");
+//            Method[] temp = ByteBufC.getMethods();
+//            for(Method item : temp)
+//            {
+//                if(item.getName().equals("writeByte"))
+//                {
+//                    for(Class item1 : item.getParameterTypes())
+//                    {
+//                        if(item1.getName().equals("int"))
+//                        {
+//                            writeByteM = item;
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+            writeByteM = ByteBufC.getMethod("writeByte", int.class);
+            writeBytesM = ByteBufC.getMethod("writeBytes", byte[].class);
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean isOK(String player, boolean in) {
         if (AllMusic.getConfig().getNoMusicPlayer().contains(player))
             return false;
@@ -28,7 +65,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public void send(String data, Boolean isplay) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
                 if (isplay && !isOK(player.getName(), false))
                     continue;
@@ -39,12 +76,12 @@ public class SideBukkit implements ISide {
 
     @Override
     public int getAllPlayer() {
-        return Bukkit.getOnlinePlayers().size();
+        return Bukkit.getServer().getOnlinePlayers().size();
     }
 
     @Override
     public void sendHudLyric(String data) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             String name = player.getName();
             if (!isOK(player.getName(), true))
                 continue;
@@ -68,7 +105,7 @@ public class SideBukkit implements ISide {
     @Override
     public boolean NeedPlay() {
         int online = getAllPlayer();
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
                 online--;
             }
@@ -78,7 +115,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public void sendHudInfo(String data) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             String Name = player.getName();
             if (!isOK(player.getName(), true))
                 continue;
@@ -91,7 +128,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public void sendHudList(String data) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             String Name = player.getName();
             if (!isOK(player.getName(), true))
                 continue;
@@ -104,7 +141,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public void sendHudSaveAll() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             String Name = player.getName();
             try {
                 SaveOBJ obj = HudSave.get(Name);
@@ -124,7 +161,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public void clearHudAll() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             send(player, "[clear]", null);
         }
     }
@@ -142,22 +179,14 @@ public class SideBukkit implements ISide {
 
     @Override
     public void sendMessageRun(Object obj, String Message, String end, String command) {
-        if (AllMusicBukkit.SpigotSet) {
-            SpigotApi.sendMessageRun(obj, Message + end, command);
-        } else {
-            if (!Message.isEmpty())
-                sendMessage(obj, Message);
-        }
+        if (!Message.isEmpty())
+            sendMessage(obj, Message);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String Message, String end, String command) {
-        if (AllMusicBukkit.SpigotSet) {
-            SpigotApi.sendMessageSuggest(obj, Message + end, command);
-        } else {
-            if (!Message.isEmpty())
-                sendMessage(obj, Message);
-        }
+        if (!Message.isEmpty())
+            sendMessage(obj, Message);
     }
 
     @Override
@@ -188,11 +217,23 @@ public class SideBukkit implements ISide {
             return;
         try {
             byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-            ByteBuf buf = Unpooled.buffer(bytes.length + 1);
-            buf.writeByte(666);
-            buf.writeBytes(bytes);
+            Object buf = bufferM.invoke(null, bytes.length + 1);
+            writeByteM.invoke(buf, 666);
+            writeBytesM.invoke(buf, bytes);
+
+//            ByteBuf buf = Unpooled.buffer(bytes.length + 1);
+//
+//            buf.writeByte(666);
+//            buf.writeBytes(bytes);
             runTask(() ->
-                    players.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channel, buf.array()));
+//                    players.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channel, buf.array()));
+            {
+                try {
+                    players.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channel, (byte[]) arrayM.invoke(buf));
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            });
             if (isplay != null) {
                 if (isplay) {
                     AllMusic.addNowPlayPlayer(players.getName());

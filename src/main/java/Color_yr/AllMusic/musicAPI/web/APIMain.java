@@ -1,10 +1,16 @@
 package Color_yr.AllMusic.musicAPI.web;
 
 import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.Utils.logs;
 import Color_yr.AllMusic.http.CryptoUtil;
 import Color_yr.AllMusic.http.EncryptType;
 import Color_yr.AllMusic.http.HttpClientUtil;
 import Color_yr.AllMusic.http.Res;
+import Color_yr.AllMusic.musicAPI.SongInfo;
+import Color_yr.AllMusic.musicAPI.songLyric.LyricDo;
+import Color_yr.AllMusic.musicAPI.songLyric.LyricSave;
+import Color_yr.AllMusic.musicAPI.songSearch.SearchOBJ;
+import Color_yr.AllMusic.musicAPI.songSearch.SearchPage;
 import Color_yr.AllMusic.musicAPI.web.getMusicInfo.InfoOBJ;
 import Color_yr.AllMusic.musicAPI.web.getMusicList.DataOBJ;
 import Color_yr.AllMusic.musicAPI.web.getMusicLyric.LyricOBJ;
@@ -12,15 +18,8 @@ import Color_yr.AllMusic.musicAPI.web.getMusicSearch.SearchDataOBJ;
 import Color_yr.AllMusic.musicAPI.web.getMusicSearch.songs;
 import Color_yr.AllMusic.musicAPI.web.getMusicTrialInfo.TrialInfoObj;
 import Color_yr.AllMusic.musicAPI.web.getProgramInfo.PrInfoOBJ;
-import Color_yr.AllMusic.musicAPI.SongInfo;
-import Color_yr.AllMusic.musicAPI.songLyric.LyricDo;
-import Color_yr.AllMusic.musicAPI.songLyric.LyricSave;
-import Color_yr.AllMusic.musicAPI.songSearch.SearchOBJ;
-import Color_yr.AllMusic.musicAPI.songSearch.SearchPage;
-import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.JsonObject;
 import okhttp3.Cookie;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;

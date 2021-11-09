@@ -1,12 +1,12 @@
 package Color_yr.AllMusic.musicPlay;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.musicAPI.SongInfo;
-import Color_yr.AllMusic.musicAPI.songLyric.LyricSave;
-import Color_yr.AllMusic.musicAPI.songLyric.ShowOBJ;
 import Color_yr.AllMusic.Utils.logs;
 import Color_yr.AllMusic.decoder.Bitstream;
 import Color_yr.AllMusic.decoder.Header;
+import Color_yr.AllMusic.musicAPI.SongInfo;
+import Color_yr.AllMusic.musicAPI.songLyric.LyricSave;
+import Color_yr.AllMusic.musicAPI.songLyric.ShowOBJ;
 
 import java.io.BufferedInputStream;
 import java.net.URL;

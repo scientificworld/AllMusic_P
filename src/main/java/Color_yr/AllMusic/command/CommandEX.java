@@ -1,14 +1,14 @@
 package Color_yr.AllMusic.command;
 
 import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.Utils.Function;
 import Color_yr.AllMusic.musicAPI.songSearch.SearchOBJ;
 import Color_yr.AllMusic.musicAPI.songSearch.SearchPage;
+import Color_yr.AllMusic.musicPlay.MusicObj;
+import Color_yr.AllMusic.musicPlay.MusicSearch;
 import Color_yr.AllMusic.musicPlay.PlayMusic;
 import Color_yr.AllMusic.musicPlay.sendHud.HudUtils;
 import Color_yr.AllMusic.musicPlay.sendHud.PosOBJ;
-import Color_yr.AllMusic.musicPlay.MusicSearch;
-import Color_yr.AllMusic.musicPlay.MusicObj;
-import Color_yr.AllMusic.Utils.Function;
 
 import java.util.Locale;
 

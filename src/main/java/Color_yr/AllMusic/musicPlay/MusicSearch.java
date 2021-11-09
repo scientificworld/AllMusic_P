@@ -4,10 +4,8 @@ import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.command.CommandEX;
 import Color_yr.AllMusic.musicAPI.songSearch.SearchPage;
 
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MusicSearch {
     private static boolean isRun;

@@ -1,11 +1,11 @@
 package Color_yr.AllMusic.musicPlay.sendHud;
 
 import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.Utils.Function;
 import Color_yr.AllMusic.hudsave.HudSave;
 import Color_yr.AllMusic.musicAPI.SongInfo;
 import Color_yr.AllMusic.musicAPI.songLyric.ShowOBJ;
 import Color_yr.AllMusic.musicPlay.PlayMusic;
-import Color_yr.AllMusic.Utils.Function;
 import com.google.gson.Gson;
 
 public class HudUtils {

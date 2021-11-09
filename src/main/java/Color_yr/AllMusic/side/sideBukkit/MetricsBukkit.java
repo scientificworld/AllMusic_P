@@ -114,7 +114,7 @@ public class MetricsBukkit {
                     ? ((Collection<?>) onlinePlayersMethod.invoke(Bukkit.getServer())).size()
                     : ((Player[]) onlinePlayersMethod.invoke(Bukkit.getServer())).length;
         } catch (Exception e) {
-            return Bukkit.getOnlinePlayers().size(); // Just use the new method if the reflection failed
+            return Bukkit.getServer().getOnlinePlayers().size();// Just use the new method if the reflection failed
         }
     }
 }

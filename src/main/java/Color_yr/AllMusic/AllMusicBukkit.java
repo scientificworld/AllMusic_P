@@ -1,7 +1,5 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.side.sideBukkit.CommandBukkit;
-import Color_yr.AllMusic.side.sideBukkit.EventBukkit;
 import Color_yr.AllMusic.side.sideBukkit.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -10,20 +8,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AllMusicBukkit extends JavaPlugin {
     public static Plugin plugin;
     public static PAPI PAPI;
-    public static boolean SpigotSet;
 
     @Override
     public void onEnable() {
         plugin = this;
         AllMusic.log = new BukkitLog(getLogger());
         AllMusic.Side = new SideBukkit();
-
-        try {
-            SpigotSet = null != Class.forName("net.md_5.bungee.api.chat.BaseComponent");
-            AllMusic.log.info("§2Spigot已支持");
-        } catch (Exception e) {
-            AllMusic.log.info("§2Spigot不支持");
-        }
 
         new AllMusic().init(plugin.getDataFolder());
         if (!AllMusic.isRun) {
