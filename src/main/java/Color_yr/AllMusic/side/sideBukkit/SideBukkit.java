@@ -26,29 +26,37 @@ public class SideBukkit implements ISide {
     static {
         try {
             ByteBufC = Class.forName("net.minecraft.util.io.netty.buffer.ByteBuf");
+        } catch (Exception e) {
+            try {
+                ByteBufC = Class.forName("io.netty.buffer.ByteBuf");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            if (ByteBufC != null) {
+                try {
+                    arrayM = ByteBufC.getMethod("array");
+                    writeByteM = ByteBufC.getMethod("writeByte", int.class);
+                    writeBytesM = ByteBufC.getMethod("writeBytes", byte[].class);
+                } catch (NoSuchMethodException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        try {
             UnpooledC = Class.forName("net.minecraft.util.io.netty.buffer.Unpooled");
-
-            bufferM = UnpooledC.getMethod("buffer", int.class);
-            arrayM = ByteBufC.getMethod("array");
-//            Method[] temp = ByteBufC.getMethods();
-//            for(Method item : temp)
-//            {
-//                if(item.getName().equals("writeByte"))
-//                {
-//                    for(Class item1 : item.getParameterTypes())
-//                    {
-//                        if(item1.getName().equals("int"))
-//                        {
-//                            writeByteM = item;
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-            writeByteM = ByteBufC.getMethod("writeByte", int.class);
-            writeBytesM = ByteBufC.getMethod("writeBytes", byte[].class);
-        } catch (ClassNotFoundException | NoSuchMethodException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            try {
+                UnpooledC = Class.forName("io.netty.buffer.Unpooled");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            if (UnpooledC != null) {
+                try {
+                    bufferM = UnpooledC.getMethod("buffer", int.class);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
         }
     }
 

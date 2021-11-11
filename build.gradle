@@ -30,7 +30,7 @@ dependencies {
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
 //    compileOnly 'com.velocitypowered:velocity-api:1.1.4'
     compileOnly 'me.clip:placeholderapi:2.10.6'
-//    compileOnly fileTree(dir:'lib',include:['*.jar'])
+    compileOnly fileTree(dir:'lib',include:['Uranium-1710-dev-4-B210-server.jar'])
 
     implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
     compile 'com.google.code.gson:gson:2.8.9'
